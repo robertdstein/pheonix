@@ -2,6 +2,7 @@ Simple Nodal Interface for Planning Electromagnetic Reconnaissance of Gravitatio
 
 ```
 git clone --recurse-submodules git@github.com:robertdstein/snipergw.git
+cd snipergw
 pip install poetry
 poetry install snipergw
 ```
