@@ -1,7 +1,10 @@
 Simple Nodal Interface for Planning Electromagnetic Reconnaissance of Gravitational Waves (SniperGW)
 
-`pip install poetry`
-`poetry install`
+```
+git clone --recurse-submodules git@github.com:robertdstein/snipergw.git
+pip install poetry
+poetry install snipergw
+```
 
 `snipergw` is a simple python package to glue together existing emgw tools.
 Specifically it does three things:
