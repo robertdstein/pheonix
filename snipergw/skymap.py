@@ -201,7 +201,7 @@ class Skymap:
 
         logger.info(f"Latest skymap URL: {latest_skymap}")
 
-        base_file_name = os.path.basename(latest_skymap).split(",")[0]
+        base_file_name = os.path.basename(latest_skymap)
         savepath = self.base_skymap_dir.joinpath(
             f"{event_name}_{latest_voevent['N']}_{base_file_name}",
         )

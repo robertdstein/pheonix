@@ -10,7 +10,7 @@ class EventConfig(BaseModel):
 
 
 DEFAULT_TELESCOPE = "ZTF"
-DEFAULT_FILTERS = "r,g,r"
+DEFAULT_FILTERS = "g,r,g"
 DEFAULT_EXPOSURE = 300.
 
 all_telescopes = [DEFAULT_TELESCOPE, "WINTER"]

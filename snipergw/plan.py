@@ -43,7 +43,7 @@ def run_gwemopt(
           f"--exposuretimes {exposures} --doSingleExposure --doAlternatingFilters " \
           f"--tilingDir {gwemopt_tiling_dir} " \
           f"--doBalanceExposure --configDirectory {gwemopt_config_dir} " \
-          f"--powerlaw_cl 0.9 --doMovie"
+          f"--powerlaw_cl 0.9 --doMovie "
 
     # f"--tilesType ranked "
 
@@ -54,7 +54,8 @@ def run_gwemopt(
         logger.info(f"Running gwemopt with command '{cmd}'")
         subprocess.run(
             cmd, shell=True,
-            stdout=subprocess.DEVNULL
+            stdout=subprocess.DEVNULL,
+            check=True
         )
     else:
         logger.info("Using cached schedule")
