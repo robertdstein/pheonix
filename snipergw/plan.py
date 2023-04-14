@@ -1,3 +1,6 @@
+"""
+Module to plan observations with gwemopt
+"""
 from snipergw.skymap import Skymap
 from argparse import Namespace
 import gwemopt.utils
@@ -7,6 +10,7 @@ from snipergw.paths import gwemopt_dir, base_output_dir
 import subprocess
 import pandas as pd
 from snipergw.model import PlanConfig
+from astropy.time import Time
 
 gwemopt_run_path = gwemopt_dir.joinpath("bin/gwemopt_run")
 gwemopt_config_dir = gwemopt_dir.joinpath("config")
@@ -38,12 +42,12 @@ def run_gwemopt(
           f"--doTiles --doPlots --doSchedule --doSkymap --doMovie " \
           f"--timeallocationType powerlaw " \
           f"--scheduleType greedy -o '{gwemopt_output_dir}' " \
-          f"--gpstime {skymap.gps_time()} " \
+          f"--gpstime {Time.now().gps} " \
           f"--skymap {skymap.skymap_path} --filters {plan_config.filters} " \
           f"--exposuretimes {exposures} --doSingleExposure --doAlternatingFilters " \
           f"--tilingDir {gwemopt_tiling_dir} " \
           f"--doBalanceExposure --configDirectory {gwemopt_config_dir} " \
-          f"--powerlaw_cl 0.9 --doMovie "
+          f"--powerlaw_cl 0.9 --doMovie --airmass 2.5 --mindiff 30 "
 
     # f"--tilesType ranked "
 
@@ -52,9 +56,10 @@ def run_gwemopt(
 
     if not plan_config.cache:
         logger.info(f"Running gwemopt with command '{cmd}'")
+        print(cmd)
         subprocess.run(
             cmd, shell=True,
-            stdout=subprocess.DEVNULL,
+            # stdout=subprocess.DEVNULL,
             check=True
         )
     else:

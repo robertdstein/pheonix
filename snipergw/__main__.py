@@ -4,6 +4,7 @@ import logging
 from snipergw.skymap import Skymap
 from snipergw.plan import run_gwemopt
 from snipergw.model import EventConfig, PlanConfig, DEFAULT_TELESCOPE, DEFAULT_EXPOSURE, DEFAULT_FILTERS
+from snipergw.submit import submit_too_ztf
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,6 +20,7 @@ parser.add_argument('-o', '--outputdir')
 parser.add_argument('-t', '--telescope', default=DEFAULT_TELESCOPE)
 parser.add_argument("-f", "--filters", default=DEFAULT_FILTERS)
 parser.add_argument("--exposuretime", default=DEFAULT_EXPOSURE)
+parser.add_argument("--subprogram", default="EMGW")
 parser.add_argument("-c", "--cache", default=False, action="store_true")
 parser.add_argument("-s", "--submit", default=False, action="store_true")
 args = parser.parse_args()
@@ -30,7 +32,10 @@ skymap = Skymap(event_config=event)
 schedule = run_gwemopt(skymap=skymap, plan_config=plan_config)
 
 if args.submit:
-    raise NotImplementedError
+    if args.telescope == "ZTF":
+        submit_too_ztf(schedule, event_config=event, subprogram=args.subprogram)
+    else:
+        raise NotImplementedError
 else:
     logger.info("Rerun with the --submit flag to actually submit a ToO. "
                 "You can additionally use the --cache flag to use the schedule "
