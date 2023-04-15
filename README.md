@@ -31,3 +31,9 @@ Note for ARM-based macs: The install of `fiona` might fail if you do not have [g
 To use this functionality, you must first configure the connection details. You need both an API token, and to know the address of the Kowalski host address. You can then set these as environment variables:
 
 export KOWALSKI_API_TOKEN=...
+
+## Usage
+
+To run sniper GW, you can do:
+
+```python -m snipergw -e EVENTNAME```
