@@ -29,7 +29,7 @@ parser.add_argument("-c", "--cache", default=False, action="store_true")
 parser.add_argument("-s", "--submit", default=False, action="store_true")
 parser.add_argument("-d", "--delete", default=False, action="store_true")
 parser.add_argument("-st", "--starttime", default=None)
-args = parser.parse_args()
+args, unknown_args = parser.parse_known_args()
 
 if args.starttime is not None:
     args.starttime = Time(args.starttime, format="isot", scale="utc")
@@ -40,7 +40,7 @@ event = EventConfig(**args.__dict__)
 plan_config = PlanConfig(**args.__dict__)
 
 skymap = Skymap(event_config=event)
-schedule = run_gwemopt(skymap=skymap, plan_config=plan_config)
+schedule = run_gwemopt(skymap=skymap, plan_config=plan_config, unknown_args=unknown_args)
 
 if np.sum([args.submit is True, args.delete is True]) > 0:
     if args.telescope == "ZTF":

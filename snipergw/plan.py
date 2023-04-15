@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 
 def run_gwemopt(
         skymap: Skymap,
-        plan_config: PlanConfig
+        plan_config: PlanConfig,
+        unknown_args: list[str]
 ) -> pd.DataFrame:
     """
     I (RS) sincerely apologise for all the terrible coding sins that are committed here
@@ -47,12 +48,15 @@ def run_gwemopt(
           f"--exposuretimes {exposures} --doSingleExposure --doAlternatingFilters " \
           f"--tilingDir {gwemopt_tiling_dir} " \
           f"--doBalanceExposure --configDirectory {gwemopt_config_dir} " \
-          f"--powerlaw_cl 0.9 --doMovie --airmass 2.5 --mindiff 30 "
+          f"--powerlaw_cl 0.9 --doMovie " \
+          f"--airmass 2.5 --mindiff 30 "
 
     # f"--tilesType ranked "
 
     if skymap.is_3d:
-        cmd += "--do3D"
+        unknown_args.append("--do3D")
+
+    cmd += " ".join(unknown_args)
 
     if not plan_config.cache:
         logger.info(f"Running gwemopt with command '{cmd}'")
