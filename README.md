@@ -19,7 +19,7 @@ You can then install the package using `pip` and `poetry`:
 git clone --recurse-submodules git@github.com:robertdstein/snipergw.git
 cd snipergw
 pip install poetry
-poetry install snipergw
+poetry install
 ```
 
 Make sure not to miss the `--recurse-submodules` flag, as this is required to download the `gwemopt` submodule.
