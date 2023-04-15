@@ -73,6 +73,10 @@ def run_gwemopt(
     coverage.unlink(missing_ok=True)
     coverage.symlink_to(gwemopt_output_dir.joinpath('tiles_coverage.pdf'))
 
+    movie = output_dir.joinpath("coverage.mpg")
+    movie.unlink(missing_ok=True)
+    movie.symlink_to(gwemopt_output_dir.joinpath('coverage.mpg'))
+
     logger.info(f"See coverage at {coverage}")
 
     schedule_path = gwemopt_output_dir.joinpath(
