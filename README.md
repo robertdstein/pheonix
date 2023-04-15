@@ -39,3 +39,11 @@ export KOWALSKI_API_TOKEN=...
 To run sniper GW, you can do:
 
 ```python -m snipergw -e EVENTNAME```
+
+## Options
+
+* No event: snipergw will download the latest event from the LIGO graceDB
+* Event name: snipergw will download the event with the given name from the LIGO graceDB
+* URL: snipergw will download the event from the given URL
+* GRB: snipergw will download the latest GRB from the GCN circular page (Fermi-GBM)
+* Skymap name: if a skymap with ".fit" in its name is saved to ~/Data/snipergw/sky_maps, snipergw will use this skymap instead of downloading a new one
