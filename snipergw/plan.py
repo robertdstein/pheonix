@@ -42,7 +42,7 @@ def run_gwemopt(
           f"--doTiles --doPlots --doSchedule --doSkymap --doMovie " \
           f"--timeallocationType powerlaw " \
           f"--scheduleType greedy -o '{gwemopt_output_dir}' " \
-          f"--gpstime {Time.now().gps} " \
+          f"--gpstime {plan_config.starttime.gps} " \
           f"--skymap {skymap.skymap_path} --filters {plan_config.filters} " \
           f"--exposuretimes {exposures} --doSingleExposure --doAlternatingFilters " \
           f"--tilingDir {gwemopt_tiling_dir} " \

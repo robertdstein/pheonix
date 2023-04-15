@@ -2,9 +2,12 @@ import argparse
 import logging
 import numpy as np
 
+from astropy.time import Time
+from astropy import units as u
+
 from snipergw.skymap import Skymap
 from snipergw.plan import run_gwemopt
-from snipergw.model import EventConfig, PlanConfig, DEFAULT_TELESCOPE, DEFAULT_EXPOSURE, DEFAULT_FILTERS
+from snipergw.model import EventConfig, PlanConfig, DEFAULT_TELESCOPE, DEFAULT_EXPOSURE, DEFAULT_FILTERS, DEFAULT_STARTTIME
 from snipergw.submit import submit_too_ztf
 
 logging.basicConfig(level=logging.INFO)
@@ -25,7 +28,13 @@ parser.add_argument("--subprogram", default="EMGW")
 parser.add_argument("-c", "--cache", default=False, action="store_true")
 parser.add_argument("-s", "--submit", default=False, action="store_true")
 parser.add_argument("-d", "--delete", default=False, action="store_true")
+parser.add_argument("-st", "--starttime", default=None)
 args = parser.parse_args()
+
+if args.starttime is not None:
+    args.starttime = Time(args.starttime, format="isot", scale="utc")
+else:
+    args.starttime = DEFAULT_STARTTIME
 
 event = EventConfig(**args.__dict__)
 plan_config = PlanConfig(**args.__dict__)
