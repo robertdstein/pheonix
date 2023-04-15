@@ -28,11 +28,13 @@ Sometimes, if you are using a conda environment, you might need to run `poetry i
 
 Note for ARM-based macs: The install of `fiona` might fail if you do not have [gdal](https://gdal.org/) installed. In that case, consider using a `conda` and running `conda install -c conda-forge gdal` before running `poetry install`.
 
+If you want to generate movies, you also need to install `ffmpeg`, which you can do via `brew install ffmpeg` or `conda install -c conda-forge ffmpeg`.
+
+## Usage
+
 To use this functionality, you must first configure the connection details. You need both an API token, and to know the address of the Kowalski host address. You can then set these as environment variables:
 
 export KOWALSKI_API_TOKEN=...
-
-## Usage
 
 To run sniper GW, you can do:
 
