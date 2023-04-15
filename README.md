@@ -7,7 +7,10 @@ pip install poetry
 poetry install snipergw
 ```
 
-conda gdal
+Note for ARM-based macs: The install of `fiona` might fail if you do not have [gdal](https://gdal.org/) installed. In that case, consider using a `conda` and running `conda install -c conda-forge gdal` before running `poetry install`.
+
+To use this functionality, you must first configure the connection details. You need both an API token, and to know the address of the Kowalski host address. You can then set these as environment variables:
+
 export KOWALSKI_API_TOKEN=...
 
 `snipergw` is a simple python package to glue together existing emgw tools.
