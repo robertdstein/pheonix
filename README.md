@@ -24,6 +24,8 @@ poetry install
 
 Make sure not to miss the `--recurse-submodules` flag, as this is required to download the `gwemopt` submodule.
 
+Sometimes, if you are using a conda environment, you might need to run `poetry install` twice.
+
 Note for ARM-based macs: The install of `fiona` might fail if you do not have [gdal](https://gdal.org/) installed. In that case, consider using a `conda` and running `conda install -c conda-forge gdal` before running `poetry install`.
 
 To use this functionality, you must first configure the connection details. You need both an API token, and to know the address of the Kowalski host address. You can then set these as environment variables:
