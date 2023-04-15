@@ -1,5 +1,11 @@
 Simple Nodal Interface for Planning Electromagnetic Reconnaissance of Gravitational Waves (SniperGW)
 
+# SniperGW
+## Installation
+
+We suggest using a conda environment to install `snipergw`, with python>=3.10.
+You can then install the package using `pip`:
+
 ```
 git clone --recurse-submodules git@github.com:robertdstein/snipergw.git
 cd snipergw
