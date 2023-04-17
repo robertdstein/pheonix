@@ -20,6 +20,7 @@ gwemopt = { path = "./snipergw/gwemopt", develop = true }
 pandas = "^1.5.3"
 pydantic = "^1.10.7"
 planobs = "^0.7.1"
+black = "^23.3.0"
 
 
 [build-system]
