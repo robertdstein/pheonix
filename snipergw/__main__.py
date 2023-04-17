@@ -7,7 +7,7 @@ import logging
 from astropy.time import Time
 
 from snipergw.model import EventConfig, PlanConfig, DEFAULT_TELESCOPE, DEFAULT_EXPOSURE, DEFAULT_FILTERS, DEFAULT_STARTTIME
-from snipergw.run import run_snipegw
+from snipergw.run import run_snipergw
 
 logging.getLogger("snipergw").setLevel(logging.DEBUG)
 
@@ -38,7 +38,7 @@ else:
 event = EventConfig(**args.__dict__)
 plan_config = PlanConfig(**args.__dict__)
 
-run_snipegw(
+run_snipergw(
     event=event,
     plan_config=plan_config,
     gwemopt_args=gwemopt_args,

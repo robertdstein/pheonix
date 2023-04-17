@@ -11,7 +11,7 @@ from snipergw.submit import submit_too_ztf
 logger = logging.getLogger(__name__)
 
 
-def run_snipegw(
+def run_snipergw(
         event: EventConfig,
         plan_config: PlanConfig,
         gwemopt_args: list[str] | None = None,

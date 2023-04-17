@@ -96,8 +96,7 @@ def run_gwemopt(
 
     schedule["utctime"] = [x.strftime(timezone_format) for x in utcs]
 
-    # convert to time in Pacific
-
+    # convert to time in Pacific time
     schedule["palomartime"] = [x.astimezone(
         pytz.timezone('America/Los_Angeles')
     ).strftime(timezone_format) for x in utcs]
