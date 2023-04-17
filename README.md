@@ -49,7 +49,7 @@ To run sniper GW, you can do:
 * GRB: snipergw will download the latest GRB from the GCN circular page (Fermi-GBM)
 * Skymap name: if a skymap with ".fit" in its name is saved to ~/Data/snipergw/sky_maps, snipergw will use this skymap instead of downloading a new one
 
-## Code contributiion guide
+## Code contribution guide
 
 We use `pre-commit` to enforce code style. Please install it and run it before committing your code. 
 We enforce the following code style:
