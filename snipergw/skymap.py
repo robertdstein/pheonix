@@ -59,6 +59,8 @@ class Skymap:
                 f"a GRB or a GW event."
             )
 
+        logger.info(f"Unpacking skymap for event {self.event_name}")
+
         self.t_obs = self.read_map()
 
     def parse_fits_file(self, event: str):

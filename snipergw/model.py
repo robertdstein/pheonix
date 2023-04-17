@@ -30,6 +30,7 @@ class PlanConfig(BaseModel):
     cache: bool = False
     starttime: Time = DEFAULT_STARTTIME
     subprogram: str = "EMGW"
+    use_both_grids: bool = False
 
     @validator('telescope')
     def telescope_must_be_known(cls, v):

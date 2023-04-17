@@ -9,12 +9,15 @@ import subprocess
 import pandas as pd
 from snipergw.model import PlanConfig
 from astropy.time import Time
+import pytz
 
 gwemopt_run_path = gwemopt_dir.joinpath("bin/gwemopt_run")
 gwemopt_config_dir = gwemopt_dir.joinpath("config")
 gwemopt_tiling_dir = gwemopt_dir.joinpath("tiling")
 
 logger = logging.getLogger(__name__)
+
+timezone_format = "%Y-%m-%dT%H:%M:%S"
 
 
 def run_gwemopt(
@@ -49,6 +52,9 @@ def run_gwemopt(
           f"--doBalanceExposure --configDirectory {gwemopt_config_dir} " \
           f"--powerlaw_cl 0.9 --doMovie " \
           f"--airmass 2.5 --mindiff 30 "
+
+    if not plan_config.use_both_grids:
+        gwemopt_args.append("--doUsePrimary")
 
     if skymap.is_3d:
         gwemopt_args.append("--do3D")
@@ -86,10 +92,15 @@ def run_gwemopt(
 
     mjds = Time(schedule["tobs"].to_numpy(), format="mjd")
 
-    schedule["utctime"] = mjds.isot
+    utcs = [x.tt.datetime.replace(tzinfo=pytz.utc) for x in mjds]
+
+    schedule["utctime"] = [x.strftime(timezone_format) for x in utcs]
 
     # convert to time in Pacific
-    # schedule["palomartime"] = schedule["utctime"].apply(lambda x: Time(x).to_datetime(timezone='US/Pacific'))
+
+    schedule["palomartime"] = [x.astimezone(
+        pytz.timezone('America/Los_Angeles')
+    ).strftime(timezone_format) for x in utcs]
 
     schedule_csv_path = output_dir.joinpath("schedule.csv")
     schedule.to_csv(schedule_csv_path)

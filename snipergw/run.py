@@ -14,10 +14,22 @@ logger = logging.getLogger(__name__)
 def run_snipegw(
         event: EventConfig,
         plan_config: PlanConfig,
-        gwemopt_args: list[str],
+        gwemopt_args: list[str] | None = None,
         submit: bool = False,
         delete: bool = False
 ):
+    """
+    Run snipergw
+
+    :param event: event
+    :param plan_config: plan configuration
+    :param gwemopt_args: gwemopt arguments
+    :param submit: submit the queue
+    :param delete: delete the queue
+    """
+
+    if gwemopt_args is None:
+        gwemopt_args = []
 
     skymap = Skymap(event_config=event)
     schedule = run_gwemopt(

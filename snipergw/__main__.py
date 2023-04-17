@@ -9,8 +9,7 @@ from astropy.time import Time
 from snipergw.model import EventConfig, PlanConfig, DEFAULT_TELESCOPE, DEFAULT_EXPOSURE, DEFAULT_FILTERS, DEFAULT_STARTTIME
 from snipergw.run import run_snipegw
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logging.getLogger("snipergw").setLevel(logging.DEBUG)
 
 parser = argparse.ArgumentParser(
     prog='snipergw',
@@ -27,6 +26,7 @@ parser.add_argument("--subprogram", default="EMGW")
 parser.add_argument("-c", "--cache", default=False, action="store_true")
 parser.add_argument("-s", "--submit", default=False, action="store_true")
 parser.add_argument("-d", "--delete", default=False, action="store_true")
+parser.add_argument("-sg", "--use_both_grids", default=False, action="store_true")
 parser.add_argument("-st", "--starttime", default=None)
 args, gwemopt_args = parser.parse_known_args()
 
