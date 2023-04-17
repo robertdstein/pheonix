@@ -1,3 +1,6 @@
+"""
+This module contains the Skymap class, which downloads and parses a skymap
+"""
 #!/usr/bin/env python
 # coding: utf-8
 import os
@@ -17,6 +20,9 @@ logger = logging.getLogger(__name__)
 
 
 class Skymap:
+    """
+    Skymap Handler class
+    """
     def __init__(
         self,
         event_config: EventConfig
@@ -54,9 +60,6 @@ class Skymap:
             )
 
         self.t_obs = self.read_map()
-
-    def gps_time(self) -> float:
-        return self.t_obs.gps
 
     def parse_fits_file(self, event: str):
         """
@@ -220,7 +223,11 @@ class Skymap:
     def read_map(
         self,
     ) -> Time:
-        """Read the skymap"""
+        """
+        Function to read skymap
+
+        :return: Time of skymap detection
+        """
 
         logger.info(f"Reading file: {self.skymap_path}")
 

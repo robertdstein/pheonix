@@ -2,8 +2,6 @@
 Module to plan observations with gwemopt
 """
 from snipergw.skymap import Skymap
-from argparse import Namespace
-import gwemopt.utils
 import logging
 import numpy as np
 from snipergw.paths import gwemopt_dir, base_output_dir
@@ -22,13 +20,14 @@ logger = logging.getLogger(__name__)
 def run_gwemopt(
         skymap: Skymap,
         plan_config: PlanConfig,
-        unknown_args: list[str]
+        gwemopt_args: list[str]
 ) -> pd.DataFrame:
     """
     I (RS) sincerely apologise for all the terrible coding sins that are committed here
 
     :param skymap: Skymap of event
     :param plan_config: Plan config
+    :param gwemopt_args: List of arguments to pass to gwemopt
     :return: Schedule dataframe
     """
 
@@ -51,16 +50,13 @@ def run_gwemopt(
           f"--powerlaw_cl 0.9 --doMovie " \
           f"--airmass 2.5 --mindiff 30 "
 
-    # f"--tilesType ranked "
-
     if skymap.is_3d:
-        unknown_args.append("--do3D")
+        gwemopt_args.append("--do3D")
 
-    cmd += " ".join(unknown_args)
+    cmd += " ".join(gwemopt_args)
 
     if not plan_config.cache:
         logger.info(f"Running gwemopt with command '{cmd}'")
-        print(cmd)
         subprocess.run(
             cmd, shell=True,
             # stdout=subprocess.DEVNULL,
@@ -87,6 +83,14 @@ def run_gwemopt(
         names=["field", "ra", "dec", "tobs", "limmag",
                "texp", "prob", "airmass", "filter", "pid"]
     )
+
+    mjds = Time(schedule["tobs"].to_numpy(), format="mjd")
+
+    schedule["utctime"] = mjds.isot
+
+    # convert to time in Pacific
+    # schedule["palomartime"] = schedule["utctime"].apply(lambda x: Time(x).to_datetime(timezone='US/Pacific'))
+
     schedule_csv_path = output_dir.joinpath("schedule.csv")
     schedule.to_csv(schedule_csv_path)
     logger.info(f"See schedule at {schedule_csv_path}")
