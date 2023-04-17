@@ -1,20 +1,22 @@
-import pandas as pd
 import os
-from planobs.models import TooTarget
-from snipergw.model import EventConfig, PlanConfig
-from planobs.api import Queue, APIError
 import time
 from pathlib import Path
+
+import pandas as pd
+from planobs.api import APIError, Queue
+from planobs.models import TooTarget
+
+from snipergw.model import EventConfig, PlanConfig
 
 ZTF_FILTER_MAP = {"g": 1, "r": 2, "i": 3}
 
 
 def submit_too_ztf(
-        schedule: pd.DataFrame,
-        event_config: EventConfig,
-        plan_config: PlanConfig,
-        submit: bool = False,
-        delete: bool = False
+    schedule: pd.DataFrame,
+    event_config: EventConfig,
+    plan_config: PlanConfig,
+    submit: bool = False,
+    delete: bool = False,
 ):
     """
     Submit a ToO to ZTF
@@ -26,17 +28,19 @@ def submit_too_ztf(
     :param delete: Delete the queue
     :return: None
     """
-    
+
     targets = []
 
     for i, row in schedule.iterrows():
-        targets.append(TooTarget(
-            request_id=i,
-            field_id=row["field"],
-            filter_id=ZTF_FILTER_MAP[row["filter"]],
-            subprogram_name=f"ToO_{plan_config.subprogram}",
-            exposure_time=row["texp"],
-        ))
+        targets.append(
+            TooTarget(
+                request_id=i,
+                field_id=row["field"],
+                filter_id=ZTF_FILTER_MAP[row["filter"]],
+                subprogram_name=f"ToO_{plan_config.subprogram}",
+                exposure_time=row["texp"],
+            )
+        )
 
     # get name of user from home directory using Pathlib
     user = Path.home().stem
@@ -49,7 +53,7 @@ def submit_too_ztf(
     t_1 = max(schedule["tobs"])
 
     trigger_name = f"ToO_{plan_config.subprogram}_{event_config.event}"
-    
+
     q.add_trigger_to_queue(
         targets=targets,
         trigger_name=trigger_name,
@@ -75,16 +79,15 @@ def submit_too_ztf(
         return expected_name in kowalski_list
 
     if submit:
-
         try:
             q.delete_queue()
             print("Deleted pre-existing queue entry of same name")
         except APIError:
             pass
-    
+
         # Now we submit our triggers
         q.submit_queue()
-    
+
         time.sleep(5)
 
         if not in_queue():
@@ -96,9 +99,9 @@ def submit_too_ztf(
             raise RuntimeError(f"Trigger {expected_name} not in queue")
         # Now we delete our triggers
         q.delete_queue()
-    
+
         current_queue = q.get_too_queues()
-    
+
         print(
             f"Current Kowalski queue has {len(current_queue['data'])} "
             f"entries (after deleting)"

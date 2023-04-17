@@ -20,6 +20,7 @@ git clone --recurse-submodules git@github.com:robertdstein/snipergw.git
 cd snipergw
 pip install poetry
 poetry install
+pre-commit install
 ```
 
 Make sure not to miss the `--recurse-submodules` flag, as this is required to download the `gwemopt` submodule.

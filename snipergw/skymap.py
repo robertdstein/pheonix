@@ -1,19 +1,22 @@
 """
 This module contains the Skymap class, which downloads and parses a skymap
 """
+import logging
+
 #!/usr/bin/env python
 # coding: utf-8
 import os
+from pathlib import Path
+
 import lxml.etree
 import numpy as np
 import requests
 import wget
-from lxml import html
-import logging
-from pathlib import Path
-from ligo.gracedb.rest import GraceDb
 from astropy.io import fits
 from astropy.time import Time
+from ligo.gracedb.rest import GraceDb
+from lxml import html
+
 from snipergw.model import EventConfig
 
 logger = logging.getLogger(__name__)
@@ -23,10 +26,8 @@ class Skymap:
     """
     Skymap Handler class
     """
-    def __init__(
-        self,
-        event_config: EventConfig
-    ):
+
+    def __init__(self, event_config: EventConfig):
         """
         Download a skymap
 
@@ -42,7 +43,7 @@ class Skymap:
 
         if np.logical_or(
             event_config.event is None,
-            np.sum([x in str(event_config.event) for x in ["s", "S", "gw", "GW"]]) > 0
+            np.sum([x in str(event_config.event) for x in ["s", "S", "gw", "GW"]]) > 0,
         ):
             self.skymap_path, self.event_name = self.get_gw_skymap(
                 event_name=event_name, rev=event_config.rev
@@ -52,7 +53,8 @@ class Skymap:
             self.skymap_path, self.event_name = self.parse_fits_file(event_name)
         elif "grb" in event_name or "GRB" in event_name:
             self.skymap_path, self.event_name = self.get_grb_skymap(
-                event_name=event_name)
+                event_name=event_name
+            )
         else:
             raise Exception(
                 f"Event {event_name} not recognised as a fits file, "
@@ -80,8 +82,7 @@ class Skymap:
 
         elif event[:8] == "https://":
             logger.info(f"Downloading from: {event}")
-            skymap_path = self.base_skymap_dir.joinpath(
-                os.path.basename(event[7:]))
+            skymap_path = self.base_skymap_dir.joinpath(os.path.basename(event[7:]))
             wget.download(event, skymap_path)
             event_name = os.path.basename(event[7:])
 
@@ -147,9 +148,7 @@ class Skymap:
         skymap_path = self.base_skymap_dir.joinpath(link)
 
         if skymap_path.exists():
-            logger.info(
-                f"Continuing with saved skymap. Located at {skymap_path}"
-            )
+            logger.info(f"Continuing with saved skymap. Located at {skymap_path}")
         else:
             logger.info(f"Downloading skymap and saving to {skymap_path}")
             wget.download(final_link, str(skymap_path))
@@ -234,9 +233,7 @@ class Skymap:
         logger.info(f"Reading file: {self.skymap_path}")
 
         with fits.open(self.skymap_path) as hdul:
-
             for x in hdul:
-
                 if "DATE-OBS" in x.header:
                     t_obs = Time(x.header["DATE-OBS"], format="isot")
 

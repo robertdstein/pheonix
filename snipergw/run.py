@@ -2,21 +2,23 @@
 This module contains the main function for running snipergw.
 """
 import logging
+
 import numpy as np
+
 from snipergw.model import EventConfig, PlanConfig
-from snipergw.skymap import Skymap
 from snipergw.plan import run_gwemopt
+from snipergw.skymap import Skymap
 from snipergw.submit import submit_too_ztf
 
 logger = logging.getLogger(__name__)
 
 
 def run_snipergw(
-        event: EventConfig,
-        plan_config: PlanConfig,
-        gwemopt_args: list[str] | None = None,
-        submit: bool = False,
-        delete: bool = False
+    event: EventConfig,
+    plan_config: PlanConfig,
+    gwemopt_args: list[str] | None = None,
+    submit: bool = False,
+    delete: bool = False,
 ):
     """
     Run snipergw
@@ -33,9 +35,7 @@ def run_snipergw(
 
     skymap = Skymap(event_config=event)
     schedule = run_gwemopt(
-        skymap=skymap,
-        plan_config=plan_config,
-        gwemopt_args=gwemopt_args
+        skymap=skymap, plan_config=plan_config, gwemopt_args=gwemopt_args
     )
 
     if np.sum([submit is True, delete is True]) > 0:
@@ -45,7 +45,7 @@ def run_snipergw(
                 event_config=event,
                 plan_config=plan_config,
                 submit=submit,
-                delete=delete
+                delete=delete,
             )
         else:
             raise NotImplementedError

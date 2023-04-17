@@ -6,20 +6,27 @@ import logging
 
 from astropy.time import Time
 
-from snipergw.model import EventConfig, PlanConfig, DEFAULT_TELESCOPE, DEFAULT_EXPOSURE, DEFAULT_FILTERS, DEFAULT_STARTTIME
+from snipergw.model import (
+    DEFAULT_EXPOSURE,
+    DEFAULT_FILTERS,
+    DEFAULT_STARTTIME,
+    DEFAULT_TELESCOPE,
+    EventConfig,
+    PlanConfig,
+)
 from snipergw.run import run_snipergw
 
 logging.getLogger("snipergw").setLevel(logging.DEBUG)
 
 parser = argparse.ArgumentParser(
-    prog='snipergw',
-    description='Simple Nodal Interface for Planning '
-                'Electromagnetic Reconnaissance of Gravitational Waves',
+    prog="snipergw",
+    description="Simple Nodal Interface for Planning "
+    "Electromagnetic Reconnaissance of Gravitational Waves",
 )
-parser.add_argument("-e", '--event')
-parser.add_argument('-r', '--rev')
-parser.add_argument('-o', '--outputdir')
-parser.add_argument('-t', '--telescope', default=DEFAULT_TELESCOPE)
+parser.add_argument("-e", "--event")
+parser.add_argument("-r", "--rev")
+parser.add_argument("-o", "--outputdir")
+parser.add_argument("-t", "--telescope", default=DEFAULT_TELESCOPE)
 parser.add_argument("-f", "--filters", default=DEFAULT_FILTERS)
 parser.add_argument("--exposuretime", default=DEFAULT_EXPOSURE)
 parser.add_argument("--subprogram", default="EMGW")
@@ -43,5 +50,5 @@ run_snipergw(
     plan_config=plan_config,
     gwemopt_args=gwemopt_args,
     submit=args.submit,
-    delete=args.delete
+    delete=args.delete,
 )
