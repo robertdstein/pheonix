@@ -4,9 +4,10 @@ name: CI
 
 # Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
   pull_request:
+  merge_group:
 
   # run the pipeline on the 0th minute of the 0th hour of day 1 and 15 every month
   schedule:
@@ -17,60 +18,75 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   ci:
-    build:
-      # The type of runner that the job will run on
-      runs-on: ubuntu-latest
+    # The type of runner that the job will run on
+    runs-on: ubuntu-22.04
 
-      # Specify the python versions to test
-      strategy:
-        matrix:
-          python-version: ["3.10", "3.11"]
+    # Specify the python versions to test
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
 
-      # Steps represent a sequence of tasks that will be executed as part of the job
-      steps:
-        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-        - uses: actions/checkout@v3
-          with:
-            submodules: recursive
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 
-        # Set up the python versions
-        - name: Set up Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v2
-          with:
-            python-version: ${{ matrix.python-version }}
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
-        # Install poetry
-        - name: Install poetry and coveralls
-          run: >-
-            python -m pip install --upgrade poetry coveralls
+      - name: Install poetry
+        run: pipx install poetry
 
-       # Setting up dependencies
-        - name: Install dependencies
-          run: |
-            poetry install
+      # Set up the python versions
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "poetry"
 
-        # Runs all tests in the 'tests' directory and gets coverage
-        - name: Test the code
-          env:
-            KOWALSKI_API_TOKEN: ${{ secrets.kowalski_api_token }}
-          run: |
-            poetry run coverage run -m unittest discover tests/
+      - name: install packages
+        run: |
+          pip install --upgrade pip
+          python -m pip install --upgrade poetry coveralls
+          poetry install
 
-        - name: Run Coveralls
-          if: ${{ success() }}
-          run: |
-            poetry run coveralls --service=github
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Runs a set of commands using the runners shell
+      - name: Test the code
+        env:
+          KOWALSKI_API_TOKEN: ${{ secrets.KOWALSKI_API_TOKEN }}
+        run: |
+          poetry run coverage run -m unittest discover tests/
 
-        - name: Echo tag name
-          run: echo "Tag is ${{ github.ref }}, Tagged is ${{ startsWith(github.ref, 'refs/tags/')}}, Python Check is ${{matrix.python-version == 3.10}},  Deploy is ${{ startsWith(github.ref, 'refs/tags/') && matrix.python-version == 3.10}}"
-
-#        # Build a tarball and push to Pypi if tagged with new version
-#        - name: Build and publish
-#          if: ${{ startsWith(github.ref, 'refs/tags/') && success() && matrix.python-version == 3.10}}
-#          run: |
-#            poetry publish -n --build
-#          env:
-#            POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Run Coveralls
+        if: ${{ success() }}
+        run: |
+          poetry run coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Echo tag name
+#        run: echo "Tag is ${{ github.ref }}, Deploy is ${{ startsWith(github.ref, 'refs/tags/') && matrix.python-version == 3.9}}"
+#
+#      - name: Install pypa/build
+#        run: >-
+#          python -m
+#          pip install
+#          build
+#          --user
+#
+#      - name: Build a binary wheel and a source tarball
+#        run: >-
+#          python -m
+#          build
+#          --sdist
+#          --wheel
+#          --outdir dist/
+#          .
+#
+#      - name: Publish distribution 📦 to PyPI
+#        if: ${{ startsWith(github.ref, 'refs/tags/') && success() && matrix.python-version == 3.9}}
+#        uses: pypa/gh-action-pypi-publish@master
+#        with:
+#          password: ${{ secrets.PYPI_API_TOKEN }}
