@@ -48,3 +48,26 @@ To run sniper GW, you can do:
 * URL: snipergw will download the event from the given URL
 * GRB: snipergw will download the latest GRB from the GCN circular page (Fermi-GBM)
 * Skymap name: if a skymap with ".fit" in its name is saved to ~/Data/snipergw/sky_maps, snipergw will use this skymap instead of downloading a new one
+
+## Code contributiion guide
+
+We use `pre-commit` to enforce code style. Please install it and run it before committing your code. 
+We enforce the following code style:
+* `black` for code formatting
+* isort for import sorting
+
+the `pre-commit` configuration is in `.pre-commit-config.yaml`. 
+
+If your code does not meet the style requirements, the commit will fail but 
+the scripts will then be fixed automatically.
+You just need to `git add` the fixed files, and then commit again.
+
+In general, we try and follow the 'PR' model of code development:
+
+* `git clone` the repo
+* `git checkout -b my-new-feature`
+* make changes
+* `git add my-changes`
+* `git commit -m "my changes"`
+* `git push origin my-new-feature`
+* create a pull request on github
