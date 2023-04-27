@@ -26,8 +26,9 @@ pre-commit install
 Make sure not to miss the `--recurse-submodules` flag, as this is required to download the `gwemopt` submodule.
 
 Sometimes, if you are using a conda environment, you might need to run `poetry install` twice.
+If you still have problems, try installing troublesome packages with `conda`, and then do `pip install -e .` instead of `poetry install`.
 
-Note for ARM-based macs: The install of `fiona` might fail if you do not have [gdal](https://gdal.org/) installed. In that case, consider using a `conda` and running `conda install -c conda-forge gdal` before running `poetry install`.
+Note for ARM-based macs: The installation of `fiona` might fail if you do not have [gdal](https://gdal.org/) installed. In that case, consider using a `conda` and running `conda install -c conda-forge gdal` before running `poetry install`.
 
 If you want to generate movies, you also need to install `ffmpeg`, which you can do via `brew install ffmpeg` or `conda install -c conda-forge ffmpeg`.
 
@@ -48,6 +49,11 @@ To run sniper GW, you can do:
 * URL: snipergw will download the event from the given URL
 * GRB: snipergw will download the latest GRB from the GCN circular page (Fermi-GBM)
 * Skymap name: if a skymap with ".fit" in its name is saved to ~/Data/snipergw/sky_maps, snipergw will use this skymap instead of downloading a new one
+
+Flags:
+
+* -s: submit
+* -d: delete
 
 ## Code contribution guide
 

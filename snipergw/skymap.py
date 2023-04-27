@@ -41,16 +41,18 @@ class Skymap:
 
         self.is_3d = False
 
-        if np.logical_or(
-            event_config.event is None,
-            np.sum([x in str(event_config.event) for x in ["s", "S", "gw", "GW"]]) > 0,
-        ):
+        if event_name is None:
             self.skymap_path, self.event_name = self.get_gw_skymap(
                 event_name=event_name, rev=event_config.rev
             )
             self.is_3d = True
         elif ".fit" in event_name:
             self.skymap_path, self.event_name = self.parse_fits_file(event_name)
+        elif np.sum([x in str(event_config.event) for x in ["s", "S", "gw", "GW"]]) > 0:
+            self.skymap_path, self.event_name = self.get_gw_skymap(
+                event_name=event_name, rev=event_config.rev
+            )
+            self.is_3d = True
         elif "grb" in event_name or "GRB" in event_name:
             self.skymap_path, self.event_name = self.get_grb_skymap(
                 event_name=event_name
@@ -83,9 +85,8 @@ class Skymap:
         elif event[:8] == "https://":
             logger.info(f"Downloading from: {event}")
             skymap_path = self.base_skymap_dir.joinpath(os.path.basename(event[7:]))
-            wget.download(event, skymap_path)
+            wget.download(event, str(skymap_path))
             event_name = os.path.basename(event[7:])
-
         else:
             raise FileNotFoundError(f"Unrecognised file {self.skymap_path}")
 
@@ -114,7 +115,6 @@ class Skymap:
         event_number = ord(event_letter) - 65
 
         # get possible skymap URLs
-
         url = f"https://heasarc.gsfc.nasa.gov/FTP/fermi/data/gbm/triggers/{event_year}"
 
         page_overview = requests.get(url)
@@ -140,8 +140,10 @@ class Skymap:
         webpage_event = html.fromstring(page_event.content)
         links_event = webpage_event.xpath("//a/@href")
 
+        print(event_url, links_event)
+
         for link in links_event:
-            if link[0:11] == "glg_healpix":
+            if "glg_healpix" in link:
                 final_link = event_url + link
                 break
 

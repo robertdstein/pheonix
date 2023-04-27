@@ -17,6 +17,7 @@ gwemopt_run_path = gwemopt_dir.joinpath("bin/gwemopt_run")
 gwemopt_config_dir = gwemopt_dir.joinpath("config")
 gwemopt_tiling_dir = gwemopt_dir.joinpath("tiling")
 
+
 logger = logging.getLogger(__name__)
 
 timezone_format = "%Y-%m-%dT%H:%M:%S"
@@ -45,7 +46,7 @@ def run_gwemopt(
 
     cmd = (
         f"python {gwemopt_run_path} --telescopes {plan_config.telescope} "
-        f"--doTiles --doPlots --doSchedule --doSkymap --doMovie "
+        f"--doTiles --doPlots --doSchedule --doSkymap "
         f"--timeallocationType powerlaw "
         f"--scheduleType greedy -o '{gwemopt_output_dir}' "
         f"--gpstime {plan_config.starttime.gps} "
