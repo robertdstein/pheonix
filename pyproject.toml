@@ -10,15 +10,15 @@ include = ["gwemopt/bin/**"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-requests = "^2.28.2"
+requests = "^2.29.0"
 backoff = "^2.2.1"
-ligo-gracedb = "^2.10.0"
+ligo-gracedb = "^2.11.0"
 jupyter = "^1.0.0"
 lxml = "^4.9.2"
 wget = "^3.2"
 astropy = "^5.2.2"
-numpy = "1.24.2"
-gwemopt = "^0.0.84"
+numpy = "1.24.3"
+gwemopt = { path = "./snipergw/gwemopt", develop = true }
 pandas = "^1.5.3"
 pydantic = "^1.10.7"
 planobs = "^0.7.1"

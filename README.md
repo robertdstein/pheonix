@@ -3,6 +3,9 @@
 
 ## Simple Nodal Interface for Planning Electromagnetic Reconnaissance of Gravitational Waves (SniperGW)
 
+[![Coverage Status](https://coveralls.io/repos/github/robertdstein/snipergw/badge.svg?branch=main)](https://coveralls.io/github/robertdstein/snipergw?branch=main)
+[![CI](https://github.com/robertdstein/snipergw/actions/workflows/continous_integration.yml/badge.svg)](https://github.com/robertdstein/snipergw/actions/workflows/continous_integration.yml)
+[![PyPI version](https://badge.fury.io/py/snipergw.svg)](https://badge.fury.io/py/snipergw)
 
 `snipergw` is a simple python package to glue together existing emgw tools.
 Specifically it does three things:
