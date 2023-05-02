@@ -88,7 +88,7 @@ class Skymap:
             wget.download(event, str(skymap_path))
             event_name = os.path.basename(event[7:])
         else:
-            raise FileNotFoundError(f"Unrecognised file {self.skymap_path}")
+            raise FileNotFoundError(f"Unrecognised file {skymap_path}")
 
         return skymap_path, event_name
 
