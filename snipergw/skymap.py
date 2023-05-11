@@ -140,8 +140,6 @@ class Skymap:
         webpage_event = html.fromstring(page_event.content)
         links_event = webpage_event.xpath("//a/@href")
 
-        print(event_url, links_event)
-
         for link in links_event:
             if "glg_healpix" in link:
                 final_link = event_url + link
