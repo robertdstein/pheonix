@@ -60,7 +60,7 @@ def run_gwemopt(
 
     if not plan_config.telescope == 'DECam':
         extra_cmd = (
-            "--doAlternatingFilters"
+            "--doAlternatingFilters "
         )
         cmd += extra_cmd
 
