@@ -42,7 +42,7 @@ def run_snipergw(
         if plan_config.telescope == "ZTF":
             submit_too_ztf(
                 schedule,
-                event_name=skymap.event_name,
+                event_config=event,
                 plan_config=plan_config,
                 submit=submit,
                 delete=delete,

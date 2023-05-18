@@ -51,14 +51,20 @@ def run_gwemopt(
         f"--scheduleType greedy -o '{gwemopt_output_dir}' "
         f"--gpstime {plan_config.starttime.gps} "
         f"--skymap {skymap.skymap_path} --filters {plan_config.filters} "
-        f"--exposuretimes {exposures} --doSingleExposure --doAlternatingFilters "
+        f"--exposuretimes {exposures} --doSingleExposure "
         f"--tilingDir {gwemopt_tiling_dir} "
         f"--doBalanceExposure --configDirectory {gwemopt_config_dir} "
-        f"--powerlaw_cl 0.9 --doMovie "
+        f"--powerlaw_cl 0.9 "
         f"--airmass 2.5 --mindiff 30 "
     )
+    
+    if not plan_config.telescope == 'DECam':
+        extra_cmd = (
+            "--doAlternatingFilters "
+        )
+        cmd += extra_cmd
 
-    if not plan_config.use_both_grids:
+    if not plan_config.use_both_grids and plan_config.telescope =='ZTF':
         gwemopt_args.append("--doUsePrimary")
 
     if skymap.is_3d:
