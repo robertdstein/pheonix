@@ -57,14 +57,12 @@ def run_gwemopt(
         f"--powerlaw_cl 0.9 "
         f"--airmass 2.5 --mindiff 30 "
     )
-    
-    if not plan_config.telescope == 'DECam':
-        extra_cmd = (
-            "--doAlternatingFilters "
-        )
+
+    if not plan_config.telescope == "DECam":
+        extra_cmd = "--doAlternatingFilters "
         cmd += extra_cmd
 
-    if not plan_config.use_both_grids and plan_config.telescope =='ZTF':
+    if not plan_config.use_both_grids and plan_config.telescope == "ZTF":
         gwemopt_args.append("--doUsePrimary")
 
     if skymap.is_3d:

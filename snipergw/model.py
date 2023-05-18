@@ -21,7 +21,8 @@ DEFAULT_FILTERS = "g,r,g"
 DEFAULT_EXPOSURE = 300.0
 DEFAULT_STARTTIME = Time.now() + 0.25 * u.hour
 
-all_telescopes = [DEFAULT_TELESCOPE, "WINTER","DECam"]
+all_telescopes = [DEFAULT_TELESCOPE, "WINTER", "DECam"]
+
 
 class PlanConfig(BaseModel):
     output_dir: Path = base_output_dir
