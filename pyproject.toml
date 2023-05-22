@@ -24,7 +24,7 @@ pydantic = "^1.10.7"
 planobs = "^0.7.1"
 black = "^23.3.0"
 isort = {extras = ["pyproject"], version = "^5.12.0"}
-pre-commit = "^3.3.1"
+pre-commit = "^3.3.2"
 coveralls = {extras = ["toml"], version = "^3.3.1"}
 
 [tool.isort]
