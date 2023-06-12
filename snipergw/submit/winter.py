@@ -54,16 +54,14 @@ def submit_too_winter(
 
     n_dithers = int(max(plan_config.exposuretime / MAX_EXPOSURE_TIME, MIN_DITHER))
 
-    t_exp = plan_config.exposuretime / n_dithers
-
-    print("n_dithers", n_dithers, "texp", t_exp)
+    print("n_dithers", n_dithers, "texp", plan_config.exposuretime)
 
     for _, row in schedule.iterrows():
         too_list.append(
             WinterFieldToO(
                 field_id=row["field"],
                 filters=[row["filter"]],
-                t_exp=t_exp,
+                t_exp=plan_config.exposuretime,
                 start_time_mjd=t_start,
                 end_time_mjd=t_end,
                 n_dither=n_dithers,
