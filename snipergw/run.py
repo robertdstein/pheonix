@@ -8,7 +8,7 @@ import numpy as np
 from snipergw.model import EventConfig, PlanConfig
 from snipergw.plan import run_gwemopt
 from snipergw.skymap import Skymap
-from snipergw.submit import submit_too_ztf
+from snipergw.submit import submit_too_winter, submit_too_ztf
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,14 @@ def run_snipergw(
             submit_too_ztf(
                 schedule,
                 event_config=event,
+                plan_config=plan_config,
+                submit=submit,
+                delete=delete,
+            )
+        elif plan_config.telescope == "WINTER":
+            submit_too_winter(
+                schedule,
+                event_name=event,
                 plan_config=plan_config,
                 submit=submit,
                 delete=delete,
