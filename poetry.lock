@@ -3177,27 +3177,27 @@ tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "pa
 
 [[package]]
 name = "planobs"
-version = "0.7.1"
+version = "0.7.2"
 description = "Plan observations with the Zwicky Transient Facility"
 optional = false
 python-versions = ">=3.10,<4"
 files = [
-    {file = "planobs-0.7.1-py3-none-any.whl", hash = "sha256:55bb55064d0e680679b40398e6b06981569b5a3fdf55092cbdc003493c610276"},
-    {file = "planobs-0.7.1.tar.gz", hash = "sha256:87bc8060613b4286ae71786c877aa516a2a404c76e2f9dac8a5c41e4377d4604"},
+    {file = "planobs-0.7.2-py3-none-any.whl", hash = "sha256:bc2685a55e168fcec5f6f837f06c069417313a236644f4182c1df18ee6594ace"},
+    {file = "planobs-0.7.2.tar.gz", hash = "sha256:9ece2ddac0d1a26269f4f8688b4ddd7b101b2eceadc1f09883c859dc9af789a4"},
 ]
 
 [package.dependencies]
 astroplan = ">=0.7"
-astropy = ">=5.0,<6.0"
-geopandas = ">=0.11,<0.13"
-lxml = ">=4.9.2,<5.0.0"
-matplotlib = ">=3.5.2,<4.0.0"
-pandas = ">=1.4.3,<2.0.0"
-penquins = ">=2.2.0,<3.0.0"
-pydantic = ">=1.10.7,<2.0.0"
-Shapely = ">=1.8.2,<3.0.0"
-tqdm = ">=4.64.0,<5.0.0"
-ztfquery = ">=1.18.4,<2.0.0"
+astropy = ">=5.0"
+geopandas = ">=0.11,<0.14"
+lxml = ">=4.9"
+matplotlib = ">=3.2"
+pandas = ">=1.4.3"
+penquins = ">=2.2.0"
+pydantic = ">=1.0"
+Shapely = ">=1.8.2"
+tqdm = ">=4.64.0"
+ztfquery = ">=1.18.4"
 
 [package.extras]
 slack = ["Flask (>=2.1.3,<3.0.0)", "gunicorn (>=20.1.0,<21.0.0)", "slackclient (>=2.9.4,<3.0.0)", "slackeventsapi (>=3.0.1,<4.0.0)"]
@@ -4943,4 +4943,4 @@ requests = ">=2.28.2,<3.0.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.10,<3.12"
-content-hash = "8db48f466a156d10f1a7b5198ba2b72f2c4b5e19d6a86d47acafecd77d749f14"
+content-hash = "48bc0657dd8c430f797a1ae89601a281fec534c96f2d0890a18c35322240ef3e"
