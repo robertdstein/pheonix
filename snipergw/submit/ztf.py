@@ -13,7 +13,7 @@ ZTF_FILTER_MAP = {"g": 1, "r": 2, "i": 3}
 
 def submit_too_ztf(
     schedule: pd.DataFrame,
-    event_config: EventConfig,
+    event_name: str,
     plan_config: PlanConfig,
     submit: bool = False,
     delete: bool = False,
@@ -22,7 +22,7 @@ def submit_too_ztf(
     Submit a ToO to ZTF
 
     :param schedule: Schedule dataframe
-    :param event_config: Event config
+    :param event_name: Event name
     :param plan_config: Plan config
     :param submit: Submit the queue
     :param delete: Delete the queue
@@ -44,15 +44,13 @@ def submit_too_ztf(
 
     # get name of user from home directory using Pathlib
     user = Path.home().stem
-    print(user)
-    # user = os.path.basename(os.path.expanduser("~"))
 
     q = Queue(user=user)
 
     t_0 = min(schedule["tobs"])
     t_1 = max(schedule["tobs"])
 
-    trigger_name = f"ToO_{plan_config.subprogram}_{event_config.event}"
+    trigger_name = f"ToO_{plan_config.subprogram}_{event_name}"
 
     q.add_trigger_to_queue(
         targets=targets,
