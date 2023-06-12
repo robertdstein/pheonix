@@ -17,8 +17,6 @@ class EventConfig(BaseModel):
 
 
 DEFAULT_TELESCOPE = "ZTF"
-DEFAULT_FILTERS = "g,r,g"
-DEFAULT_EXPOSURE = 300.0
 DEFAULT_STARTTIME = Time.now() + 0.25 * u.hour
 
 all_telescopes = [DEFAULT_TELESCOPE, "WINTER", "DECam"]
@@ -54,7 +52,7 @@ class PlanConfig(BaseModel):
             raise ValueError(f"telescope must be in {all_telescopes}")
         return v
 
-    @validator("filters")
+    @validator("filters", always=True)
     def set_default_filter(cls, field_value, values, field):
         if field_value is None:
             if values["telescope"] == "ZTF":
@@ -78,7 +76,7 @@ class PlanConfig(BaseModel):
 
         return field_value
 
-    @validator("exposuretime")
+    @validator("exposuretime", always=True)
     def set_default_exposure(cls, field_value, values, field):
         if field_value is None:
             if values["telescope"] == "ZTF":
