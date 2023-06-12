@@ -37,9 +37,33 @@ If you want to generate movies, you also need to install `ffmpeg`, which you can
 
 ## Usage
 
-To use this functionality, you must first configure the connection details. You need both an API token, and to know the address of the Kowalski host address. You can then set these as environment variables:
+To use this functionality, you must first configure the connection details. Thos is instrument-specific.
+
+### ZTF
+You need both an API token, and to know the address of the Kowalski host address. You can then set these as environment variables:
 
 export KOWALSKI_API_TOKEN=...
+
+### WINTER
+
+If you have not configured your winterapi user, you will be prompted for your winterapi user name and password. This only needs to be done once. You may also be prompted to allow use of keychain. If you do not have these details, contact the WINTER team to be issued with a set of credentials.
+
+Then, in order to trigger a ToO, you need to select a program (e.g 2020A000). You can set the program name as an environment variable:
+
+```bash
+export WINTER_API_PROGRAM=2020A000
+```
+
+if you have not used the program before, you will also need to set the password:
+
+```bash
+export WINTER_API_KEY=...
+```
+After setting the password once, you will not need to repeat this step.
+
+The password is emailed to the PI of each WINTER program, and should be shared with you if you wish to trigger under that program.
+
+## Running sniper GW
 
 To run sniper GW, you can do:
 
