@@ -67,7 +67,11 @@ The password is emailed to the PI of each WINTER program, and should be shared w
 
 To run sniper GW, you can do:
 
-```python -m snipergw -e EVENTNAME```
+```python -m snipergw -e EVENTNAME -t TELNAME```
+
+An example would be:
+
+```python -m snipergw -e S230529ay -t WINTER```
 
 ## Options
 
