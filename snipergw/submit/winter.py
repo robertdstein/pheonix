@@ -53,6 +53,7 @@ def submit_too_winter(
     # FIXME t_end?
 
     n_dithers = int(max(plan_config.exposuretime / MAX_EXPOSURE_TIME, MIN_DITHER))
+    n_dithers = 5
 
     print("n_dithers", n_dithers, "texp", plan_config.exposuretime)
 
