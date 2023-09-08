@@ -1600,13 +1600,13 @@ files = [
 
 [[package]]
 name = "igwn-auth-utils"
-version = "0.4.0"
+version = "1.0.2"
 description = "Authorisation utilities for IGWN"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "igwn-auth-utils-0.4.0.tar.gz", hash = "sha256:f7e909f058b29d17bb53b835b736dafb332cbd526b9f2e4ffcb9975031190cba"},
-    {file = "igwn_auth_utils-0.4.0-py3-none-any.whl", hash = "sha256:03a8d79e90794cf7b10629c3e70088676ba27486fe353ee1740f18b42237de70"},
+    {file = "igwn-auth-utils-1.0.2.tar.gz", hash = "sha256:cd941d625a26367424780e24b01d1c100c3aa9820f0a877ca7218c6d218f9861"},
+    {file = "igwn_auth_utils-1.0.2-py3-none-any.whl", hash = "sha256:0e551ab2aa018aa5677f4555e135c36c2eb7d2d11ba57857333a974978c54132"},
 ]
 
 [package.dependencies]
@@ -1618,7 +1618,7 @@ scitokens = ">=1.7.0"
 [package.extras]
 docs = ["sphinx (>=4.0.0)", "sphinx-immaterial-igwn"]
 lint = ["flake8 (>=3.7.0)", "flake8-bandit"]
-test = ["pytest (>=3.9.1)", "pytest-cov", "requests (>=2.14)", "requests-mock", "safe-netrc (>=1.0.0)"]
+test = ["pytest (>=3.9.1)", "pytest-cov", "requests-mock"]
 
 [[package]]
 name = "importlib-metadata"
@@ -2229,21 +2229,19 @@ test = ["pytest"]
 
 [[package]]
 name = "ligo-gracedb"
-version = "2.11.0"
+version = "2.12.0"
 description = "A Python package for accessing the GraceDB API."
 optional = false
 python-versions = "*"
 files = [
-    {file = "ligo-gracedb-2.11.0.tar.gz", hash = "sha256:88759dc6602e9ddc792379d188b78e6a7434c77717619d7438f1bf028a1d54da"},
+    {file = "ligo-gracedb-2.12.0.tar.gz", hash = "sha256:f35be8fc21804d7fd11b8131fe64e5178be521711c4d0e0f883860330e3e8f03"},
 ]
 
 [package.dependencies]
 cryptography = ">=1.7.2"
 future = ">=0.15.0"
-igwn-auth-utils = ">=0.3.1"
+igwn-auth-utils = ">=1.0.0"
 requests = ">=2.6.0"
-safe_netrc = ">=1.0.0"
-six = ">=1.9.0"
 
 [[package]]
 name = "ligo-segments"
@@ -4972,4 +4970,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.10,<3.12"
-content-hash = "02ea6281f3a47a21b2afdb870a9ff23a1ea86a648f6de6d44124fb9ea3331a3c"
+content-hash = "2373c18d8c072767ce9983759e326f3ad71cd76cd14805203c461438b2ec2012"
