@@ -20,7 +20,7 @@ astropy = "^5.3"
 numpy = "1.25.2"
 gwemopt = { path = "./snipergw/gwemopt", develop = true }
 pandas = ">1.4.0"
-pydantic = "^1.10.9"
+pydantic = "^2.4.1"
 planobs = "^0.7.3"
 black = "^23.9.1"
 isort = {extras = ["pyproject"], version = "^5.12.0"}
