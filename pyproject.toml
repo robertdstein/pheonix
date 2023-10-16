@@ -17,7 +17,7 @@ jupyter = "^1.0.0"
 lxml = "^4.9.3"
 wget = "^3.2"
 astropy = "^5.3"
-numpy = "1.26.0"
+numpy = "1.26.1"
 gwemopt = { path = "./snipergw/gwemopt", develop = true }
 pandas = ">1.4.0"
 pydantic = "^1.10.9"
