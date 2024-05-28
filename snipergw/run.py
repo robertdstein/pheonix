@@ -1,6 +1,7 @@
 """
 This module contains the main function for running snipergw.
 """
+
 import logging
 
 import numpy as np
@@ -42,7 +43,7 @@ def run_snipergw(
         if plan_config.telescope == "ZTF":
             submit_too_ztf(
                 schedule,
-                event_config=event,
+                event_name=event.event,
                 plan_config=plan_config,
                 submit=submit,
                 delete=delete,
@@ -50,7 +51,7 @@ def run_snipergw(
         elif plan_config.telescope == "WINTER":
             submit_too_winter(
                 schedule,
-                event_name=event,
+                event_name=event.event,
                 plan_config=plan_config,
                 submit=submit,
                 delete=delete,

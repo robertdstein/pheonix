@@ -1,6 +1,7 @@
 """
 This module contains the paths to the data directories.
 """
+
 import os
 from pathlib import Path
 

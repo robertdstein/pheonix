@@ -1,5 +1,0 @@
-
-[submodule "snipergw/gwemopt"]
-	path = snipergw/gwemopt
-	url = git@github.com:mcoughlin/gwemopt.git
-	shallow = true

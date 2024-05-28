@@ -1,6 +1,7 @@
 """
 This module contains the command line interface for snipergw.
 """
+
 import argparse
 import logging
 

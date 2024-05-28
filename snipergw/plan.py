@@ -1,6 +1,7 @@
 """
 Module to plan observations with gwemopt
 """
+
 import logging
 import subprocess
 
@@ -8,15 +9,11 @@ import numpy as np
 import pandas as pd
 import pytz
 from astropy.time import Time
+from gwemopt.run import run
 
 from snipergw.model import PlanConfig
 from snipergw.paths import base_output_dir, gwemopt_dir
 from snipergw.skymap import Skymap
-
-gwemopt_run_path = gwemopt_dir.joinpath("bin/gwemopt_run")
-gwemopt_config_dir = gwemopt_dir.joinpath("config")
-gwemopt_tiling_dir = gwemopt_dir.joinpath("tiling")
-
 
 logger = logging.getLogger(__name__)
 
@@ -44,50 +41,52 @@ def run_gwemopt(
         [str(plan_config.exposuretime) for _ in plan_config.filters.split(",")]
     )
 
-    cmd = (
-        f"python {gwemopt_run_path} --telescopes {plan_config.telescope} "
-        f"--doTiles --doPlots --doSchedule --doSkymap "
-        f"--timeallocationType powerlaw "
-        f"--scheduleType greedy -o '{gwemopt_output_dir}' "
-        f"--gpstime {plan_config.starttime.gps} "
-        f"--skymap {skymap.skymap_path} --filters {plan_config.filters} "
-        f"--exposuretimes {exposures} --doSingleExposure "
-        f"--tilingDir {gwemopt_tiling_dir} "
-        f"--doBalanceExposure --configDirectory {gwemopt_config_dir} "
-        f"--powerlaw_cl 0.9 "
-        f"--airmass 2.5 --mindiff 30 "
-    )
+    gwemopt_args += [
+        "--telescopes",
+        plan_config.telescope,
+        "--doTiles",
+        "--doPlots",
+        "--doSchedule",
+        "--timeallocationType",
+        "powerlaw",
+        "--scheduleType",
+        "greedy",
+        "-o",
+        f"{gwemopt_output_dir}",
+        "--gpstime",
+        f"{plan_config.starttime.gps}",
+        "--event",
+        f"{skymap.skymap_path}",
+        "--filters",
+        f"{plan_config.filters}",
+        "--exposuretimes",
+        f"{exposures}",
+        "--doSingleExposure",
+        "--doBalanceExposure",
+    ]
+
+    if "--airmass" not in gwemopt_args:
+        gwemopt_args += ["--airmass", "2.5"]
+
+    if "--mindiff" not in gwemopt_args:
+        gwemopt_args += ["--mindiff", "30"]
+
+    if "--powerlaw_cl" not in gwemopt_args:
+        gwemopt_args += ["--powerlaw_cl", "0.9"]
 
     if not plan_config.telescope == "DECam":
-        extra_cmd = "--doAlternatingFilters "
-        cmd += extra_cmd
-
-    if not plan_config.use_both_grids and plan_config.telescope == "ZTF":
-        gwemopt_args.append("--doUsePrimary")
-
-    if skymap.is_3d:
-        gwemopt_args.append("--do3D")
-
-    cmd += " ".join(gwemopt_args)
+        gwemopt_args += ["--doAlternatingFilters"]
 
     if not plan_config.cache:
-        logger.info(f"Running gwemopt with command '{cmd}'")
-        subprocess.run(
-            cmd,
-            shell=True,
-            # stdout=subprocess.DEVNULL,
-            check=True,
-        )
+        logger.info(f"Running gwemopt with arguments: {gwemopt_args}")
+
+        run(gwemopt_args)
     else:
         logger.info("Using cached schedule")
 
     coverage = output_dir.joinpath("tiles_coverage.pdf")
     coverage.unlink(missing_ok=True)
     coverage.symlink_to(gwemopt_output_dir.joinpath("tiles_coverage.pdf"))
-
-    movie = output_dir.joinpath("coverage.mpg")
-    movie.unlink(missing_ok=True)
-    movie.symlink_to(gwemopt_output_dir.joinpath("coverage.mpg"))
 
     logger.info(f"See coverage at {coverage}")
 
