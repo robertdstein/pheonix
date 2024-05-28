@@ -1,11 +1,21 @@
 """
 This module contains the pydantic models used to validate the input
 """
+
 from pathlib import Path
+from typing import Any
 
 from astropy import units as u
 from astropy.time import Time
-from pydantic import BaseModel, validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    ValidationInfo,
+    field_validator,
+    model_validator,
+    validator,
+)
+from typing_extensions import Self
 
 from snipergw.paths import base_output_dir
 
@@ -39,54 +49,56 @@ winter_default = TelescopeDefault(
 class PlanConfig(BaseModel):
     output_dir: Path = base_output_dir
     telescope: str = DEFAULT_TELESCOPE
-    filters: str = None
-    exposuretime: float = None
+    filters: str | None = None
+    exposuretime: float | None = None
     cache: bool = False
     starttime: Time = DEFAULT_STARTTIME
     subprogram: str = "EMGW"
     use_both_grids: bool = False
 
-    @validator("telescope")
+    @field_validator("telescope")
+    @classmethod
     def telescope_must_be_known(cls, v):
         if v not in all_telescopes:
             raise ValueError(f"telescope must be in {all_telescopes}")
         return v
 
-    @validator("filters", always=True)
-    def set_default_filter(cls, field_value, values, field):
-        if field_value is None:
-            if values["telescope"] == "ZTF":
-                return ztf_default.filters
-            elif values["telescope"] == "WINTER":
-                return winter_default.filters
+    @model_validator(mode="after")
+    def set_default_filter(self) -> Any:
+        if self.filters is None:
+            if self.telescope == "ZTF":
+                self.filters = ztf_default.filters
+            elif self.telescope == "WINTER":
+                self.filters = winter_default.filters
             else:
-                raise ValueError(f"Unknown telescope {values['telescope']}")
+                raise ValueError(f"Unknown telescope {self.telescope}")
 
-        for filter_name in field_value.split(","):
-            if values["telescope"] == "ZTF":
-                assert (
-                    filter_name in ztf_default.all_filters
-                ), f"Unknown filter {filter_name} for telescope {values['telescope']}, acceptable filters are {ztf_default.all_filters}"
-            elif values["telescope"] == "WINTER":
-                assert (
-                    filter_name in winter_default.all_filters
-                ), f"Unknown filter {filter_name} for telescope {values['telescope']}, acceptable filters are {winter_default.all_filters}"
+        for filter_name in self.filters.split(","):
+            if self.telescope == "ZTF":
+                assert filter_name in ztf_default.all_filters, (
+                    f"Unknown filter {filter_name} for telescope {self.telescope}, "
+                    f"acceptable filters are {ztf_default.all_filters}"
+                )
+            elif self.telescope == "WINTER":
+                assert filter_name in winter_default.all_filters, (
+                    f"Unknown filter {filter_name} for telescope {self.telescope}, "
+                    f"acceptable filters are {winter_default.all_filters}"
+                )
             else:
-                raise ValueError(f"Unknown telescope {values['telescope']}")
+                raise ValueError(f"Unknown telescope {self.telescope}")
 
-        return field_value
+        return self
 
-    @validator("exposuretime", always=True)
-    def set_default_exposure(cls, field_value, values, field):
-        if field_value is None:
-            if values["telescope"] == "ZTF":
-                return ztf_default.exposuretime
-            elif values["telescope"] == "WINTER":
-                return winter_default.exposuretime
+    @model_validator(mode="after")
+    def set_default_exposure(self) -> Self:
+        if self.exposuretime is None:
+            if self.telescope == "ZTF":
+                self.exposuretime = ztf_default.exposuretime
+            elif self.telescope == "WINTER":
+                self.exposuretime = winter_default.exposuretime
             else:
-                raise ValueError(f"Unknown telescope {values['telescope']}")
+                raise ValueError(f"Unknown telescope {self.telescope}")
 
-        return field_value
+        return self
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
