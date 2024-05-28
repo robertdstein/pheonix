@@ -1,6 +1,7 @@
 """
 This module contains the Skymap class, which downloads and parses a skymap
 """
+
 import logging
 
 #!/usr/bin/env python
