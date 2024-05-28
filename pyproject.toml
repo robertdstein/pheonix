@@ -1,39 +1,65 @@
-[tool.poetry]
+[build-system]
+requires = ["setuptools>=45", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
 name = "snipergw"
-version = "0.2.0"
+version = "1.0.0"
 description = ""
-authors = ["Robert Stein <rdstein@caltech.edu>"]
-license = "MIT"
+authors = [
+    {name = "Robert Stein", email = "rdstein@caltech.edu"}
+]
+license = {text = "MIT"}
 readme = "README.md"
-include = ["gwemopt/bin/**"]
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: End Users/Desktop',
+    'Intended Audience :: Developers',
+    'Natural Language :: English',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Scientific/Engineering :: Astronomy',
+    'Topic :: Scientific/Engineering :: Physics',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+]
+dependencies = [
+    "requests",
+    "backoff",
+    "ligo-gracedb",
+    "lxml",
+    "wget",
+    "astropy",
+    "numpy",
+    "gwemopt==0.2.2",
+    "pandas",
+    "pydantic>=2.2.0",
+    "planobs",
+    "winterapi >= 1.4.0",
+]
+[project.optional-dependencies]
+dev = [
+    "black == 24.4.2",
+    "isort == 5.13.2",
+    "pylint == 3.2.2",
+    "coveralls",
+]
 
+[project.urls]
+Homepage = "https://github.com/robertdstein/snipergw"
 
-[tool.poetry.dependencies]
-python = ">3.10,<3.12"
-requests = "^2.31.0"
-backoff = "^2.2.1"
-ligo-gracedb = "^2.12.0"
-jupyter = "^1.0.0"
-lxml = "^4.9.3"
-wget = "^3.2"
-astropy = "^5.3"
-numpy = "1.26.1"
-gwemopt = { path = "./snipergw/gwemopt", develop = true }
-pandas = ">1.4.0"
-pydantic = "^1.10.9"
-planobs = "^0.7.3"
-black = "^23.10.1"
-isort = {extras = ["pyproject"], version = "^5.12.0"}
-pre-commit = "^3.5.0"
-coveralls = {extras = ["toml"], version = "^3.3.1"}
-winterapi = "^0.2.0"
+[tool.setuptools]
+packages = ["snipergw"]
+
+[tool.coverage.run]
+source = ["snipergw"]
 
 [tool.isort]
 profile = "black"
-skip = ["snipergw/gwemopt"]
-
-[tool.black]
-exclude = "snipergw/gwemopt"
 
 [tool.coverage.report]
 # Regexes for lines to exclude from consideration
@@ -59,7 +85,3 @@ exclude_lines = [
     "raise"
     ]
 ignore_errors = true
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
