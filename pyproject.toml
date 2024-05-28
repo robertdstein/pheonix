@@ -12,21 +12,21 @@ include = ["gwemopt/bin/**"]
 python = ">3.10,<3.12"
 requests = "^2.31.0"
 backoff = "^2.2.1"
-ligo-gracedb = "^2.11.0"
+ligo-gracedb = "^2.12.0"
 jupyter = "^1.0.0"
-lxml = "^4.9.2"
+lxml = "^4.9.3"
 wget = "^3.2"
 astropy = "^5.3"
-numpy = "1.24.3"
+numpy = "1.26.1"
 gwemopt = { path = "./snipergw/gwemopt", develop = true }
 pandas = ">1.4.0"
 pydantic = "^1.10.9"
-planobs = "^0.7.2"
-black = "^23.3.0"
+planobs = "^0.7.3"
+black = "^23.10.1"
 isort = {extras = ["pyproject"], version = "^5.12.0"}
-pre-commit = "^3.3.2"
+pre-commit = "^3.5.0"
 coveralls = {extras = ["toml"], version = "^3.3.1"}
-winterapi = "^0.1.1"
+winterapi = "^0.2.0"
 
 [tool.isort]
 profile = "black"
